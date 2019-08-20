@@ -1,0 +1,8 @@
+{
+  "name": "MYUI",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:linbaijin/MYUI.git",
+  "author": "LBJ <576117134@qq.com>",
+  "license": "MIT"
+}
