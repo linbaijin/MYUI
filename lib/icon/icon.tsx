@@ -1,19 +1,19 @@
 import React from 'react'
-import '../icons/alipay.svg'
-import '../icons/qq.svg'
-import '../icons/wechat.svg'
+import './importAllIcons.js'
+import './icon.scss'
 
 interface IconProps {
     name:string
+    onClick?:React.MouseEventHandler<HTMLLIElement>
 }
 
 const Icon:React.FunctionComponent<IconProps> = (props) => {
     return (
-        <span>
-            <svg>
+        <i onClick={props.onClick}>
+            <svg className="icon" fill="currentcolor">
                 <use xlinkHref={`#${props.name}`}/>
             </svg>
-        </span>
+        </i>
     )
 }
 
