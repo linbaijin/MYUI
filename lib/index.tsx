@@ -1,12 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Button from './button'
+import Icon from './icon'
 
-const a:number = 1
-
-ReactDOM.render(<Button/>,document.body)
-
-console.log(React)
-console.log(ReactDOM)
-
-export {Button,a}
+ReactDOM.render(
+    <div>
+      <Icon name="wechat"/>  
+    </div>
+,
+document.body)
