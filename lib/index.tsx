@@ -4,7 +4,9 @@ import Icon from './icon'
 
 ReactDOM.render(
     <div>
-      <Icon name="wechat"/>  
+      <Icon name="wechat"/>
+      <Icon name="qq"/>
+      <Icon name="alipay"/>  
     </div>
 ,
-document.body)
+document.querySelector('#root'))
