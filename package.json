@@ -1,8 +1,9 @@
 {
-  "name": "MYUI",
-  "version": "1.0.0",
+  "name": "myui888",
+  "version": "0.0.2",
   "main": "dist/lib/index",
   "types": "dist/lib/index",
+  "files": ["/dist/**/*"],
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
