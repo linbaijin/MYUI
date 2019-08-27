@@ -1,14 +1,20 @@
+@import '../helper';
+@keyframes closeRotate {
+    from{
+        transform: rotate(0deg); 
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
 .myui-dialog{
     position: fixed;
     top: 50%;
     left: 50%;
     background: white;
-    width: 10em;
-    height: 10em;
+    min-width: 20em;
     border-radius: 4px;
     transform: translate(-50%,-50%);
-    box-sizing: border-box;
-    border:10px solid red;
     &-mask {
         position: fixed;
         width: 100%;
@@ -18,15 +24,47 @@
         background:fade-out(#000000, 0.8)
     }
     &-close {
-
+        position: absolute;
+        bottom: 80%;
+        left: 88%;
+        // background: $main-color;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+            animation: closeRotate 1s;
+        }
     }
     &-header {
-
+        font-size: 22px;
+        padding: 8px 16px;
+        border-bottom: 1px solid gray;
     }
     &-main {
-
+        min-height: 6em;
+        padding: 8px 16px;
     }
     &-footer {
+        padding: 10px;
+        border-top: 1px solid gray;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
 
+button {
+    box-sizing: border-box;
+    height: 32px;
+    margin: 0 4px;
+    border-radius: 4px;
+    &:first-child {
+        margin-left: 0;
+    }
+    &:last-child {
+        margin-right: 0;
     }
 }
