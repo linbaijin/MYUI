@@ -3,7 +3,9 @@
   "version": "0.0.2",
   "main": "dist/lib/index",
   "types": "dist/lib/index",
-  "files": ["/dist/**/*"],
+  "files": [
+    "/dist/**/*"
+  ],
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
@@ -23,6 +25,7 @@
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^4.3.5",
     "@types/react-test-renderer": "^16.9.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^24.9.0",
@@ -35,6 +38,7 @@
     "jest": "^24.9.0",
     "jest-junit": "^7.0.0",
     "node-sass": "^4.12.0",
+    "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.9.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
