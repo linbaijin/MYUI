@@ -54,7 +54,6 @@ const Dialog:React.FunctionComponent<Props> = (props) => {
 }
 
 export const alert = (content:string) => {
-    
     const buttons = <button onClick={()=>onCancel()}>OK</button>
     const onCancel = modal(content,[buttons])
 }
