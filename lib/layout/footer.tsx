@@ -1,8 +1,18 @@
 import React from 'react'
+import { getFirstClassName } from '../classes';
+const getFullClassName = getFirstClassName('myui-layout')
 
-const Footer:React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement> {
+
+}
+
+const Footer: React.FunctionComponent<Props> = (props) => {
+
+    const {className,...rest} = props
     return (
-        <div>x</div>
+        <div className={getFullClassName('footer',{extra:className})} {...rest}>
+            footer
+        </div>
     )
 }
 

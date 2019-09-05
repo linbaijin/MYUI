@@ -1,8 +1,17 @@
 import React from 'react'
+import { getFirstClassName } from '../classes';
+const getFullClassName = getFirstClassName('myui-layout')
 
-const Header:React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement> {
+
+}
+
+const Header:React.FunctionComponent<Props> = (props) => {
+    const {className,...rest} = props
     return (
-        <div>x</div>
+        <div className={getFullClassName('header',{extra:className})} {...rest}>
+            header
+        </div>
     )
 }
 
