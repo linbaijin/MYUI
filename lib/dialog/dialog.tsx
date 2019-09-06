@@ -29,7 +29,7 @@ const Dialog:React.FunctionComponent<Props> = (props) => {
             <Fragment>
                 <div className={getFullClassName('mask')} onClick={(e)=>props.maskCloseable?onCancel(e):null}>
                 </div>
-                <div className={getFullClassName()}>
+                <div className={getFullClassName('')}>
                     <div className={getFullClassName('close')} onClick={onCancel}>
                         <Icon name="close"/>
                     </div>

@@ -10,7 +10,7 @@ const Content:React.FunctionComponent<Props> = (props) => {
     const {className,...rest} = props
     return (
         <div className={getFullClassName('content',{extra:className})} {...rest}>
-            content
+            {props.children}
         </div>
     )
 }

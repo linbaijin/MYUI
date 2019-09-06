@@ -10,7 +10,7 @@ const Header:React.FunctionComponent<Props> = (props) => {
     const {className,...rest} = props
     return (
         <div className={getFullClassName('header',{extra:className})} {...rest}>
-            header
+            {props.children}
         </div>
     )
 }

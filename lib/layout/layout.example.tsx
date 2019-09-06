@@ -4,47 +4,48 @@ import Header from './header'
 import Content from './content'
 // import Aside from './aside'
 import Footer from './footer'
-import Aside from './aside';
+import Aside from './aside'
+import './layout.example.scss'
 
 export default function () {
     return (
         <div>
             <h1>example 1</h1>
             <Layout className="hi" style={{height:500}}>
-                <Header>header</Header>
-                <Content>content</Content>
-                <Footer>footer</Footer>
+                <Header className="example-header">header</Header>
+                <Content className="example-content">content</Content>
+                <Footer className="example-footer">footer</Footer>
             </Layout>
 
             <h1>example 2</h1>
             <Layout className="hi" style={{height:500}}>
-                <Header>header</Header>
+            <Header className="example-header">header</Header>
                 <Layout>
-                    <Aside>aside</Aside>
-                    <Content>content</Content>
+                    <Aside className="example-aside">aside</Aside>
+                    <Content className="example-content">content</Content>
                 </Layout>
                 
-                <Footer>footer</Footer>
+                <Footer className="example-footer">footer</Footer>
             </Layout>
 
             <h1>example 3</h1>
             <Layout className="hi" style={{height:500}}>
-                <Header>header</Header>
+                <Header className="example-header">header</Header>
                 <Layout>
-                    <Content>content</Content>
-                    <Aside>aside</Aside>
+                    <Content className="example-content">content</Content>
+                    <Aside className="example-aside">aside</Aside>
                 </Layout>
                 
-                <Footer>footer</Footer>
+                <Footer className="example-footer">footer</Footer>
             </Layout>
 
             <h1>example 4</h1>
             <Layout className="hi" style={{height:500}}>
-                <Aside>aside</Aside>
+                <Aside className="example-aside">aside</Aside>
                 <Layout>
-                    <Header>header</Header>
-                    <Content>content</Content>
-                    <Footer>footer</Footer>
+                    <Header className="example-header">header</Header>
+                    <Content className="example-content">content</Content>
+                    <Footer className="example-footer">footer</Footer>
                 </Layout>
             </Layout>
         </div>

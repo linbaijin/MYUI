@@ -15,7 +15,7 @@ const Layout:React.FunctionComponent<Props> = (props) => {
         children.reduce((pre,curr)=> pre || curr.type === Aside, false)
     
     return (
-        <div className={getFullClassName({'':true,hasAside},{extra:[className,hasAside&&'hasAside'].join(' ')})} {...rest}>
+        <div className={getFullClassName({'':true,hasAside},{extra:className})} {...rest}>
             {props.children}
         </div>
     )
