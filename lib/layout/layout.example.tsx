@@ -46,8 +46,6 @@ export default function () {
                     <Content>content</Content>
                     <Footer>footer</Footer>
                 </Layout>
-                
-                
             </Layout>
         </div>
     )
