@@ -2,7 +2,7 @@ import React,{Fragment, ReactElement, ReactNode} from 'react'
 import ReactDOM from 'react-dom';
 import './dialog.scss'
 import {Icon} from '../index'
-import {getFirstClassName} from '../classes'
+import {getFirstClassName} from '../helpers/classnames'
 
 interface Props {
     visiable:boolean
