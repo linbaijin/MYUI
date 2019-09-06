@@ -18,8 +18,8 @@ interface ClassToggle {
     [K: string]: boolean
 }
 
-function getFirstClassName(perfix: string) {
-    return (name: string | ClassToggle, options?: Options) => 
+const getFirstClassName = (perfix: string) => 
+    (name: string | ClassToggle, options?: Options) => 
         Object
             .entries(name instanceof Object ? name : { [name]: name })
             .filter(kv => kv[1] !== false)
@@ -29,6 +29,5 @@ function getFirstClassName(perfix: string) {
                 .join('-'))
             .concat(options && options.extra || [])
             .join(' ')  
-}
 
 export { getFirstClassName }
