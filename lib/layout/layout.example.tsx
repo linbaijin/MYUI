@@ -32,21 +32,22 @@ export default function () {
             <Layout className="hi" style={{height:500}}>
                 <Header className="example-header">header</Header>
                 <Layout>
-                    <Content className="example-content">content</Content>
                     <Aside className="example-aside">aside</Aside>
+                    <Content className="example-content">content</Content>
                 </Layout>
-                
                 <Footer className="example-footer">footer</Footer>
+                
+                
             </Layout>
 
             <h1>example 4</h1>
             <Layout className="hi" style={{height:500}}>
-                <Aside className="example-aside">aside</Aside>
+                <Header className="example-header">header</Header>
                 <Layout>
-                    <Header className="example-header">header</Header>
                     <Content className="example-content">content</Content>
-                    <Footer className="example-footer">footer</Footer>
+                    <Aside className="example-aside">aside</Aside>
                 </Layout>
+                <Footer className="example-footer">footer</Footer>
             </Layout>
         </div>
     )
