@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { HashRouter as Router, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Route, NavLink} from 'react-router-dom';
 import DialogExample from './lib/dialog/dialog.example';
 import LayoutExample from './lib/layout/layout.example';
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout'
@@ -11,34 +11,34 @@ void 'examples 不要改动这一行代码！'; // tslint:disable-line
 ReactDOM.render(
     <div>
         <Router>
-            <Layout style={{ border: '1px solid red' }}>
-                <Header style={{ border: '1px solid green' }}>
+            <Layout className="site-page">
+                <Header className="site-header">
                         <div className="logo">
                             MYUI
                         </div>
                 </Header>
                 <Layout>
-                <Aside style={{ border: '1px solid black' }}>
+                <Aside className="site-aside">
                     <h2>组件</h2>
                     <ul>
                         <li>
-                            <Link to="/dialog">dialog</Link>
+                            <NavLink to="/dialog">dialog</NavLink>
                         </li>
                         <li>
-                            <Link to="/layout">layout</Link>
+                            <NavLink to="/layout">layout</NavLink>
                         </li>
                         <li>
-                            <Link to=""></Link>
+                            <NavLink to=""></NavLink>
                         </li>
                     </ul>
             </Aside>
                    
-                    <Content>
+                    <Content className="site-main">
                         <Route path="/dialog" component={DialogExample}></Route>
                         <Route path="/layout" component={LayoutExample}></Route>
                     </Content>
                 </Layout>
-                <Footer style={{border:'1px solid blue'}}>@LeeBriken</Footer>
+                <Footer className="site-footer">@LeeBriken</Footer>
             </Layout>
         </Router>
     </div>
