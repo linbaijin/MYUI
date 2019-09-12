@@ -16,9 +16,9 @@ export default function () {
 
     return (
         <div>
-            <Form value={formData} fields={fields} buttons={
+            <Form onSubmit={()=>alert('123')} value={formData} fields={fields} buttons={
                 <Fragment>
-                    <button>提交</button>
+                    <button type="submit">提交</button>
                     <button>取消</button>
                 </Fragment>
             } />
