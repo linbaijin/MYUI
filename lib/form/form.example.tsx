@@ -1,10 +1,9 @@
 import React, { useState, Fragment } from 'react';
-import Form from './form'
-
+import Form, {FormValue} from './form'
 
 export default function () {
 
-    const [formData] = useState({
+    const [formData,setFormData] = useState<FormValue>({
         username:'',
         password:''
     })
@@ -14,14 +13,20 @@ export default function () {
         {name:'password',label:'密码',input:{type:'password'}}
     ])
 
+    const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+        console.log(formData);
+    }
+
     return (
         <div>
-            <Form onSubmit={()=>alert('123')} value={formData} fields={fields} buttons={
+            <Form onSubmit={onSubmit} value={formData} fields={fields} buttons={
                 <Fragment>
                     <button type="submit">提交</button>
                     <button>取消</button>
                 </Fragment>
-            } />
+            } 
+            onChange={(newValue)=>setFormData(newValue)}
+            />
         </div>
     )
 }

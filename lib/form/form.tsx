@@ -1,28 +1,49 @@
-import React,{ReactFragment} from 'react';
+import React, { ReactFragment } from 'react';
 
-interface Props {
-    value:{[K:string]:any};
-    fields:Array<{name:string,label:string,input:{type:string}}>;
-    buttons:ReactFragment;
-    onSubmit:React.FormEventHandler;
+export interface FormValue {
+    [K:string]:any
 }
 
-const Form:React.FunctionComponent<Props> = (props) => (
-    <form onSubmit={props.onSubmit}>
-        {
-            props.fields.map(f =>
-            <div key={f.name}>
-                <label htmlFor="">{f.label}</label>
-                <input type={f.input.type}/>
-            </div>
-            )
-        }
-        <div>
+interface Props {
+    value: FormValue;
+    fields: Array<{ name: string, label: string, input: { type: string } }>;
+    buttons: ReactFragment;
+    onSubmit: React.FormEventHandler<HTMLFormElement>;
+    onChange:(value:FormValue) => void;
+}
+
+const Form: React.FunctionComponent<Props> = (props) => {
+
+    const formData = props.value
+    const onSubmit:React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        props.onSubmit(e)
+    }
+    const onInputChange = (name:string,e:React.ChangeEvent<HTMLInputElement>) => {
+        const newFormValue = {...formData,[name]:e.target.value}
+        console.log(name,e.target.value) 
+        props.onChange(newFormValue)
+    }
+
+    return (
+        <form onSubmit={onSubmit}>
             {
-                props.buttons
+                props.fields.map(f =>
+                    <div key={f.name}>
+                        <label htmlFor="">{f.label}</label>
+                        <input value={formData[f.name]} onChange={onInputChange.bind(null,f.name)} type={f.input.type} />
+                    </div>
+                )
             }
-        </div>
-    </form>
-)
+            <div>
+                {
+                    props.buttons
+                }
+            </div>
+        </form>
+    )
+}
+
+
 
 export default Form
