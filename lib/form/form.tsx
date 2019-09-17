@@ -1,7 +1,8 @@
 import React, { ReactFragment } from 'react';
+import {FormError} from './validator';
 
 export interface FormValue {
-    [K:string]:any
+    [K:string]:any;
 }
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
     buttons: ReactFragment;
     onSubmit: React.FormEventHandler<HTMLFormElement>;
     onChange:(value:FormValue) => void;
+    errors:FormError;
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
@@ -21,7 +23,6 @@ const Form: React.FunctionComponent<Props> = (props) => {
     }
     const onInputChange = (name:string,e:React.ChangeEvent<HTMLInputElement>) => {
         const newFormValue = {...formData,[name]:e.target.value}
-        console.log(name,e.target.value) 
         props.onChange(newFormValue)
     }
 
@@ -32,6 +33,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     <div key={f.name}>
                         <label htmlFor="">{f.label}</label>
                         <input value={formData[f.name]} onChange={onInputChange.bind(null,f.name)} type={f.input.type} />
+                        <div>{props.errors[f.name]?props.errors[f.name].join(','):''}</div>
                     </div>
                 )
             }

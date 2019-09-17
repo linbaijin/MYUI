@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react';
-import Form, {FormValue} from './form'
+import Form, {FormValue} from './form';
+import Validator,{FormError} from './validator';
 
 export default function () {
 
@@ -13,8 +14,19 @@ export default function () {
         {name:'password',label:'密码',input:{type:'password'}}
     ])
 
+    const [errors,setErrors] = useState<FormError>({})
+
     const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
-        console.log(formData);
+        const rules = [
+            {key:'username',required:true},
+            {key:'username',minLength:8,maxLength:16},
+            {key:'username',pattern:/^[A-Za-z0-9]+$/},
+            {key:'password',required:true},
+        ]
+        const newErrors =  Validator(formData,rules)
+        setErrors(newErrors)
+        console.log(newErrors)
+        console.log(formData)
     }
 
     return (
@@ -24,7 +36,8 @@ export default function () {
                     <button type="submit">提交</button>
                     <button>取消</button>
                 </Fragment>
-            } 
+            }
+            errors={errors} 
             onChange={(newValue)=>setFormData(newValue)}
             />
         </div>
