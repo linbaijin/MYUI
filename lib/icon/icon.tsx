@@ -4,18 +4,17 @@ import './icon.scss'
 import classes from '../helpers/classnames'
 
 interface IconProps extends React.SVGAttributes<SVGElement> {
-    name:string
+    name: string
 }
 
-const Icon:React.FunctionComponent<IconProps> =
- ({name,className,...restProps}) => {
-    return (
-            <svg {...restProps} 
-                className={classes('icon',className)} 
+const Icon: React.FunctionComponent<IconProps> = ({ name, className, ...restProps }) => {
+        return (
+            <svg {...restProps}
+                className={classes('icon', className)}
                 fill="currentcolor">
-                <use xlinkHref={`#${name}`}/>
+                <use xlinkHref={`#${name}`} />
             </svg>
-    )
-}
+        )
+    }
 
 export default Icon
