@@ -1,0 +1,15 @@
+@import '../helper';
+
+.myui-input {
+    border:1px solid #ddd;
+    line-height: 22px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px fade-out($main-color, 1);
+    transition: box-shadow 1s;
+    &:focus {
+        outline: none;
+        border-color: $main-color;
+        box-shadow: 0 0 0 1px fade-out($main-color, 0.5);
+    }
+}

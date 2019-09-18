@@ -1,0 +1,15 @@
+.myui-form{
+    &-td {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    &-tr:first-child &td {
+        padding-top: 0
+    }
+    &-tr:last-child &td {
+        padding-bottom: 0
+    }
+    &-td + &-td {
+        padding-left: 16px;
+    }
+}
