@@ -1,0 +1,55 @@
+@import '../helper';
+
+.myui-button {
+    padding: 0 16px;
+    line-height: 22px;
+    cursor: pointer;
+    &-normal {
+        color:#333;
+        border:1px solid lighten(#333, 50%);
+        background: white;
+        transition: border 250ms;
+        &:hover,  &:focus {
+            border-color: $main-color;
+            color: $main-color;
+        }
+        &:focus{
+            outline: none;
+        }
+    }
+
+    &-important {
+        color: white;
+        border:1px solid lighten($main-color, 50%);
+        background: $main-color;
+        transition: all 250ms;
+        &:hover, &:focus {
+            background: lighten($main-color, 10%);
+            border-color: lighten($main-color, 10%)
+        }
+        &:focus{
+            outline: none;
+        }
+        &:active{
+            box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.3); 
+        }
+    }
+
+    &-danger {
+        color: white;
+        border:1px solid lighten(#ff7875, 50%);
+        background: #ff7875;
+        transition: all 250ms;
+        &:hover, &:focus {
+            background: lighten(#ff7875, 5%);
+            border-color: lighten(#ff7875, 10%)
+        }
+        &:focus{
+            outline: none;
+        }
+        &:active{
+            box-shadow: 0 0 0 4px rgba(255, 77, 79, 0.3); 
+        }
+    }
+    
+}

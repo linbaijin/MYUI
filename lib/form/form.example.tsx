@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import Form, {FormValue} from './form';
+import Button from '../button/button';
 import Validator,{FormError} from './validator';
 
 export default function () {
@@ -33,8 +34,8 @@ export default function () {
         <div>
             <Form onSubmit={onSubmit} value={formData} fields={fields} buttons={
                 <Fragment>
-                    <button type="submit">提交</button>
-                    <button>取消</button>
+                    <Button level="important" type="submit">提交</Button>
+                    <Button level="danger">取消</Button>
                 </Fragment>
             }
             errors={errors} 

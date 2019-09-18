@@ -1,5 +1,5 @@
 import React, { ReactFragment } from 'react';
-import Input from '../input/input'
+import Input from '../input/input';
 import { FormError } from './validator';
 import classes from '../helpers/classnames';
 import './form.scss'
@@ -34,27 +34,38 @@ const Form: React.FunctionComponent<Props> = (props) => {
             <table>
                 <tbody>
                     {
-                        props.fields.map(f =>
-                            <tr className={classes('myui-form-tr')} key={f.name}>
+                        props.fields.map(f => {
+                            return (
+                              <tr className={classes('myui-form-tr')} key={f.name}>
                                 <td className={classes('myui-form-td')}>
                                     <label htmlFor="">{f.label}</label>
                                 </td>
                                 <td className={classes('myui-form-td')}>
                                     <Input value={formData[f.name]} onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
-                                    <div>{props.errors[f.name] ? props.errors[f.name].join(',') : ''}</div>
+                                    <div className={classes('muyi-form-error')}>
+                                        {props.errors[f.name] ? props.errors[f.name].join('，') : ''}
+                                    </div>
                                 </td>
-                            </tr>
+                              </tr>
+                            )
+                        }
+                            
+                                
                         )
                     }
-                </tbody>
+                    <tr className={classes('myui-form-tr')}>
+                        <td className={classes('myui-form-td')} />
+                        <td className={classes('myui-form-td')}>
+                            {
+                                props.buttons
+                            }
+                        </td>
 
+                    </tr>
+                </tbody>
             </table>
 
-            <div>
-                {
-                    props.buttons
-                }
-            </div>
+
         </form>
     )
 }

@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 // import {getFirstClassName} from '../classes'
+import classes from '../helpers/classnames';
+import './button.scss';
 
-interface Props {
-    type?:'button'|'submit'|'rest'
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+    level?:'important' | 'danger'| 'normal'
 }
 
 const Button:React.FunctionComponent<Props> = (props) => {
+    const {className, children, level, ...rest} = props
     return (
-        <button style={{backgroundColor:'red'}}>{props.children}</button>
+        <button className={classes('myui-button',`myui-button-${level}`,className)} {...rest}>{children}</button>
     )
+}
+
+Button.defaultProps = {
+    level:'normal'
 }
 
 export default Button
