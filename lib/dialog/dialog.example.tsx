@@ -1,16 +1,17 @@
 import React, {useState} from 'react'
 import Dialog,{alert,confirm,modal} from './dialog'
+import Button from '../button/button'
 
 export default function () {
     const [x,setX] = useState(false)
     const [y,setY] = useState(false)
     const openModal = () => {
-       const close = modal(<h1>hello<button onClick={()=>close()}>button</button></h1>)
+       const close = modal(<h1>hello<Button onClick={()=>close()}>button</Button></h1>)
     }
     return (
         <div>
             <h1>example1</h1>
-            <button onClick={()=>setX(!x)}>click</button>
+            <Button level="important" onClick={()=>setX(!x)}>click</Button>
             <Dialog visiable={x}
                     onOk={()=>{setX(false)
                         console.log('click ok')
@@ -23,11 +24,11 @@ export default function () {
             </Dialog>
 
             <h1>example2</h1>
-            <button onClick={()=>setY(!y)}>click</button>
+            <Button onClick={()=>setY(!y)}>click</Button>
             <Dialog visiable={y} 
                     buttons={[
-                        <button onClick={()=>setY(false)}>1</button>,
-                        <button onClick={()=>setY(false)}>2</button>
+                        <Button level="important" onClick={()=>setY(false)}>1</Button>,
+                        <Button level="danger" onClick={()=>setY(false)}>2</Button>
                     ]}
                     onCancel={()=>setY(false)}
                     >
@@ -35,11 +36,11 @@ export default function () {
             </Dialog>
 
             <h1>example3</h1>
-            <button onClick={()=>alert('ssss')}>alert</button>
+            <Button level="danger" onClick={()=>alert('ssss')}>alert</Button>
             <h1>example3</h1>
-            <button onClick={()=>confirm('ssss',()=>console.log('clcik yes 4'),()=>console.log('clcik no 4'))}>confirm</button>
+            <Button level="important" onClick={()=>confirm('ssss',()=>console.log('clcik yes 4'),()=>console.log('clcik no 4'))}>confirm</Button>
             <h1>example4</h1>
-            <button onClick={()=>openModal()}>modal</button>
+            <Button  onClick={()=>openModal()}>modal</Button>
         </div>
     )
 }

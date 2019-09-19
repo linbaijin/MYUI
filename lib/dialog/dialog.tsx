@@ -1,8 +1,9 @@
 import React,{Fragment, ReactElement, ReactNode} from 'react'
 import ReactDOM from 'react-dom';
-import './dialog.scss'
-import {Icon} from '../index'
-import {getFirstClassName} from '../helpers/classnames'
+import './dialog.scss';
+import {Icon} from '../index';
+import {getFirstClassName} from '../helpers/classnames';
+import Button from '../button/button'
 
 interface Props {
     visiable:boolean
@@ -41,7 +42,7 @@ const Dialog:React.FunctionComponent<Props> = (props) => {
                         props.footer?
                         <footer className={getFullClassName('footer')}>
                         {props.buttons?props.buttons.map((button, index) => React.cloneElement(button,{key:index})):
-                        [<button key="cancel" onClick={onCancel}>cancel</button>,<button key="ok" onClick={onOk}>ok</button>]}
+                        [<Button level="important" key="cancel" onClick={onCancel}>cancel</Button>,<Button level="danger" key="ok" onClick={onOk}>ok</Button>]}
                         </footer>:
                         ''
                     }   
@@ -54,7 +55,7 @@ const Dialog:React.FunctionComponent<Props> = (props) => {
 }
 
 export const alert = (content:string) => {
-    const buttons = <button onClick={()=>onCancel()}>OK</button>
+    const buttons = <Button level="important" onClick={()=>onCancel()}>OK</Button>
     const onCancel = modal(content,[buttons])
 }
 
@@ -68,8 +69,8 @@ export const confirm = (content:string,yes?:()=>void,no?:()=>void) => {
         no&&no()
     }
     const buttons = [
-        <button onClick={onNo}>confirm no</button>,
-        <button onClick={onYes}>confirm yes</button>
+        <Button level="important" onClick={onNo}>confirm no</Button>,
+        <Button level="danger" onClick={onYes}>confirm yes</Button>
     ]
     const onCancel = modal(content,buttons)
 
