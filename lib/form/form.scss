@@ -1,7 +1,14 @@
 .myui-form{
+    &-table {
+        border-collapse: collapse;
+    }
     &-td {
-        padding-top: 16px;
+        padding-top: 0;
         padding-bottom: 16px;
+        vertical-align: top;
+    }
+    &-label {
+        line-height: 32px;
     }
     &-tr:first-child &td {
         padding-top: 0
@@ -11,5 +18,18 @@
     }
     &-td + &-td {
         padding-left: 16px;
+    }
+    &-error {
+        font-size: 0.8em;
+        color:red;
+    }
+    &-errorInput {
+        border-color: red;
+        box-shadow: 0 0 0 1px red;
+        &:focus {
+            outline: none;
+            border-color: red;
+            box-shadow: 0 0 0 1px fade-out(red, 0.5);
+        }
     }
 }

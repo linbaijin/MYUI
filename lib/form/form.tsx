@@ -31,19 +31,23 @@ const Form: React.FunctionComponent<Props> = (props) => {
 
     return (
         <form onSubmit={onSubmit}>
-            <table>
+            <table className={classes('myui-form-table')}>
                 <tbody>
                     {
                         props.fields.map(f => {
                             return (
                               <tr className={classes('myui-form-tr')} key={f.name}>
                                 <td className={classes('myui-form-td')}>
-                                    <label htmlFor="">{f.label}</label>
+                                    <label className={classes('myui-form-label')} htmlFor="">{f.label}</label>
                                 </td>
                                 <td className={classes('myui-form-td')}>
-                                    <Input value={formData[f.name]} onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
-                                    <div className={classes('muyi-form-error')}>
-                                        {props.errors[f.name] ? props.errors[f.name].join('，') : ''}
+                                    <Input className={props.errors.hasOwnProperty(f.name)?'myui-form-errorInput':''} value={formData[f.name]}
+                                     onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
+                                    <div className={classes('myui-form-error')}>
+                                        {
+                                        props.errors[f.name] ? props.errors[f.name].join('，') :
+                                        <span>&nbsp;</span>
+                                        }
                                     </div>
                                 </td>
                               </tr>

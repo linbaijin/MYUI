@@ -9,7 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 const Input:React.FunctionComponent<Props> = (props) => {
     const {className,...rest} = props
     return (
-        <input className={classes('myui-input')} {...rest} />
+        <input className={classes('myui-input',className)} {...rest} />
     )
 }
 
