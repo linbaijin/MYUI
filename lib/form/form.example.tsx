@@ -3,6 +3,19 @@ import Form, {FormValue} from './form';
 import Button from '../button/button';
 import Validator,{FormError} from './validator';
 
+const userArray = ['xxx','yyy','zzz'];
+const checkUserName = (username:string,succeed:() => void, fail:() => void) => {
+    setTimeout(() => {
+        console.log('我现在知道用户名是否存在')
+        if(userArray.indexOf(username)>=0){
+            succeed()
+        } else {
+            fail()
+        }
+    },6000)
+}
+
+
 export default function () {
 
     const [formData,setFormData] = useState<FormValue>({
@@ -23,11 +36,24 @@ export default function () {
             {key:'username',minLength:8,maxLength:16},
             {key:'username',pattern:/^[A-Za-z0-9]+$/},
             {key:'password',required:true},
+            {
+                key:'username',validator: {
+                    name:'uique',
+                    validate(username:string){
+                        console.log('有人调用validate了')
+                        return new Promise<void>((resolve,reject) => {
+                            checkUserName(username,resolve,reject)
+                        })
+                        
+                    }
+                }
+            }
         ]
-        const newErrors =  Validator(formData,rules)
-        setErrors(newErrors)
-        console.log(newErrors)
-        console.log(formData)
+        Validator(formData,rules,(newErrors)=>{
+            console.log('得到Promise的error',newErrors)
+            setErrors(newErrors)
+        })
+        console.log('formData',formData)
     }
 
     return (

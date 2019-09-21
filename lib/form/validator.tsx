@@ -6,6 +6,7 @@ interface FormRule {
     minLength?:number;
     maxLength?:number;
     pattern?:RegExp;
+    validator?:{name:string,validate:(value:string)=>Promise<void>}
 }
 
 type FormRules = Array<FormRule>
@@ -18,9 +19,28 @@ const isEmpty = (value:any) => {
     return value === undefined || value === null || value === ''
 }
 
-const Validator = (formValue:FormValue, rules:FormRules):FormError => {
+const flat = (arr:Array<any>):Array<any> => {
+    let result: any[] = []
+    let bStop = true
+    arr.forEach((val) => {
+        if(Array.isArray(val)) {
+            result.push(...val)
+            bStop = false
+        } else {
+            result.push(val)
+        }
+    })
+    if(bStop) {
+        return result
+    }
+    return flat(result)
+}
+
+
+
+const Validator = (formValue:FormValue, rules:FormRules,callBack:(errors:FormError)=>void):void => {
     let errors:any = {} //错误信息容器
-    const addError = (key:string,message:string) => {
+    const addError = (key:string,message:string|Promise<any>) => {
         if(errors[key] === undefined) {
             errors[key] = []
         }
@@ -48,8 +68,19 @@ const Validator = (formValue:FormValue, rules:FormRules):FormError => {
                 addError(rule.key,'格式不正确')
             }
         }
+        if(rule.validator) {
+            const promise = rule.validator.validate(value)
+            addError(rule.key,promise)
+        }
     })
-    return errors
+    Promise.all(flat(Object.values(errors))).then(()=> {
+        console.log('所有promise成功')
+        callBack(errors)
+    },()=>{
+        callBack(errors)
+        console.log('有一个promise失败')
+    })
+    console.log(Object.values(errors))
 }
 
 export default Validator
