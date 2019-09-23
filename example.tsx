@@ -5,7 +5,7 @@ import { HashRouter as Router, Route, NavLink} from 'react-router-dom';
 import DialogDemo from './lib/dialog/dialog.demo';
 import LayoutDemo from './lib/layout/layout.demo';
 import IconDemo from './lib/icon/icon.demo';
-import FormExample from './lib/form/form.example'
+import FormDemo from './lib/form/form.demo';
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout'
 import './example.scss'
 void 'examples 不要改动这一行代码！'; // tslint:disable-line
@@ -44,7 +44,7 @@ ReactDOM.render(
                         <Route path="/icon" component={IconDemo}></Route>
                         <Route path="/dialog" component={DialogDemo}></Route>
                         <Route path="/layout" component={LayoutDemo}></Route>
-                        <Route path="/form" component={FormExample}></Route>
+                        <Route path="/form" component={FormDemo}></Route>
                     </Content>
                 </Layout>
                 <Footer className="site-footer">@LeeBriken</Footer>
