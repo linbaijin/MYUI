@@ -15,10 +15,10 @@ interface Props {
     onSubmit: React.FormEventHandler<HTMLFormElement>;
     onChange: (value: FormValue) => void;
     errors: FormError;
+    customTransformError?:{[K:string]:string}
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
-
     const formData = props.value
     const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -27,6 +27,17 @@ const Form: React.FunctionComponent<Props> = (props) => {
     const onInputChange = (name: string, e: React.ChangeEvent<HTMLInputElement>) => {
         const newFormValue = { ...formData, [name]: e.target.value }
         props.onChange(newFormValue)
+    }
+
+    const transformError = (message:string):string => {
+        const map:{[K:string]:string} = {
+            require:'必填',
+            minLength:'太短',
+            maxLength:'太长',
+            pattern:'格式不正确',
+            ...props.customTransformError
+        }
+        return map[message]
     }
 
     return (
@@ -45,7 +56,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                      onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
                                     <div className={classes('myui-form-error')}>
                                         {
-                                        props.errors[f.name] ? props.errors[f.name].join('，') :
+                                        props.errors[f.name] ? props.errors[f.name].map(item => transformError(item)).join('，') :
                                         <span>&nbsp;</span>
                                         }
                                     </div>

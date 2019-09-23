@@ -7,12 +7,12 @@ const userArray = ['xxx','yyy','zzz'];
 const checkUserName = (username:string,succeed:() => void, fail:() => void) => {
     setTimeout(() => {
         console.log('我现在知道用户名是否存在')
-        if(userArray.indexOf(username)>=0){
+        if(userArray.indexOf(username)==-1){
             succeed()
         } else {
             fail()
         }
-    },2000)
+    },6000)
 }
 
 
@@ -33,12 +33,12 @@ export default function () {
     const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         const rules = [
             {key:'username',required:true},
-            {key:'username',minLength:8,maxLength:16},
+            {key:'username',minLength:1,maxLength:16},
             {key:'username',pattern:/^[A-Za-z0-9]+$/},
             {key:'password',required:true},
             {
                 key:'username',validator: {
-                    name:'uique',
+                    name:'unique',
                     validate(username:string){
                         console.log('有人调用validate了')
                         return new Promise<void>((resolve,reject) => {
@@ -64,7 +64,8 @@ export default function () {
                     <Button level="danger">取消</Button>
                 </Fragment>
             }
-            errors={errors} 
+            errors={errors}
+            customTransformError={{unique:'用户名已存在'}}
             onChange={(newValue)=>setFormData(newValue)}
             />
         </div>

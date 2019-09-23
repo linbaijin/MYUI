@@ -56,46 +56,46 @@ const Validator = (formValue: FormValue, rules: FormRules, callBack: (errors: Fo
             errors[key] = []
         }
         errors[key].push(message)
-    }
+    };
     rules.map(rule => {
         const value = formValue[rule.key]
         if (rule.required) {
             if (isEmpty(value)) {
-                addError(rule.key, { message: '必填' })
+                addError(rule.key, { message: 'require' })
             }
         }
         if (rule.minLength) {
             if (!isEmpty(value) && value!.length < rule.minLength) {
-                addError(rule.key, { message: '太短' })
+                addError(rule.key, { message: 'minLength' })
             }
         }
         if (rule.maxLength) {
             if (!isEmpty(value) && value!.length > rule.maxLength) {
-                addError(rule.key, { message: '太长' })
+                addError(rule.key, { message: 'maxLength' })
             }
         }
         if (rule.pattern) {
             if (!(rule.pattern.test(value))) {
-                addError(rule.key, { message: '格式不正确' })
+                addError(rule.key, { message: 'pattern' })
             }
         }
         if (rule.validator) {
             const promise = rule.validator.validate(value)
-            addError(rule.key, { message: '用户名已存在', promise })
+            addError(rule.key, { message: rule.validator.name, promise })
         }
-    })
+    });
     const promiseList = flat(Object.values(errors))
         .filter((item: Message) => item.promise)
-        .map((item: Message) => item.promise)
-    Promise.all(promiseList)
-        .then(() => {
-            console.log('所有promise成功', errors)
-            callBack(errors)
-        }, () => {
-            const newErrors: FormError = formEntries(Object.keys(errors).map((key) => [key, errors[key].map((item: Message) => item.message)]))
-            callBack(newErrors)
-            console.log('有一个promise失败', newErrors)
-        })
+        .map((item: Message) => item.promise);
+    Promise.all(promiseList).finally(() => {
+        console.log('23213',Object.values(errors))
+        callBack(
+            formEntries(
+                Object.keys(errors)
+                    .map((key) => [key, 
+                        errors[key].map((item: Message) => item.message)]))
+        )
+    });
     // console.log(Object.values(errors))
 }
 
