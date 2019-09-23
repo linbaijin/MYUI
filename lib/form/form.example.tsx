@@ -12,7 +12,7 @@ const checkUserName = (username:string,succeed:() => void, fail:() => void) => {
         } else {
             fail()
         }
-    },6000)
+    },2000)
 }
 
 

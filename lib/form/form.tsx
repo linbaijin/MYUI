@@ -15,7 +15,7 @@ interface Props {
     onSubmit: React.FormEventHandler<HTMLFormElement>;
     onChange: (value: FormValue) => void;
     errors: FormError;
-    customTransformError?:{[K:string]:string}
+    customTransformError?: { [K: string]: string }
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
@@ -29,12 +29,12 @@ const Form: React.FunctionComponent<Props> = (props) => {
         props.onChange(newFormValue)
     }
 
-    const transformError = (message:string):string => {
-        const map:{[K:string]:string} = {
-            require:'必填',
-            minLength:'太短',
-            maxLength:'太长',
-            pattern:'格式不正确',
+    const transformError = (message: string): string => {
+        const map: { [K: string]: string } = {
+            require: '必填',
+            minLength: '太短',
+            maxLength: '太长',
+            pattern: '格式不正确',
             ...props.customTransformError
         }
         return map[message]
@@ -47,25 +47,26 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     {
                         props.fields.map(f => {
                             return (
-                              <tr className={classes('myui-form-tr')} key={f.name}>
-                                <td className={classes('myui-form-td')}>
-                                    <label className={classes('myui-form-label')} htmlFor="">{f.label}</label>
-                                </td>
-                                <td className={classes('myui-form-td')}>
-                                    <Input className={props.errors.hasOwnProperty(f.name)?'myui-form-errorInput':''} value={formData[f.name]}
-                                     onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
-                                    <div className={classes('myui-form-error')}>
-                                        {
-                                        props.errors[f.name] ? props.errors[f.name].map(item => transformError(item)).join('，') :
-                                        <span>&nbsp;</span>
-                                        }
-                                    </div>
-                                </td>
-                              </tr>
+                                <tr className={classes('myui-form-tr')} key={f.name}>
+                                    <td className={classes('myui-form-td')}>
+                                        <label className={classes('myui-form-label')} htmlFor="">{f.label}</label>
+                                    </td>
+                                    <td className={classes('myui-form-td')}>
+                                        <Input className={props.errors.hasOwnProperty(f.name) && props.errors[f.name].length != 0 ? 'myui-form-errorInput' : ''}
+                                            value={formData[f.name]}
+                                            onChange={onInputChange.bind(null, f.name)} type={f.input.type} />
+                                        <div className={classes('myui-form-error')}>
+                                            {
+                                                props.errors[f.name] ? props.errors[f.name].map(item => transformError(item)).join('，') :
+                                                    <span>&nbsp;</span>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
                             )
                         }
-                            
-                                
+
+
                         )
                     }
                     <tr className={classes('myui-form-tr')}>

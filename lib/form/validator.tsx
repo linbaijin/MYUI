@@ -50,7 +50,20 @@ const formEntries = (array: FormEntriesArray): FormError => {
 };
 
 const Validator = (formValue: FormValue, rules: FormRules, callBack: (errors: FormError) => void): void => {
-    let errors: any = {} //错误信息容器
+    let errors: any = {}; //错误信息容器
+    const isResolve = (value:string) => {
+        let result = null
+        value==='resolve'?result = formEntries(
+            Object.keys(errors)
+                .map((key) => 
+                [key, errors[key].map((item: Message) => item.message).filter((item: string) => item !== 'unique')]
+            )):result =  formEntries(
+                Object.keys(errors)
+                    .map((key) => [key,
+                        errors[key].map((item: Message) => item.message)]))
+
+        return result
+    }
     const addError = (key: string, message: Message) => {
         if (errors[key] === undefined) {
             errors[key] = []
@@ -87,14 +100,11 @@ const Validator = (formValue: FormValue, rules: FormRules, callBack: (errors: Fo
     const promiseList = flat(Object.values(errors))
         .filter((item: Message) => item.promise)
         .map((item: Message) => item.promise);
-    Promise.all(promiseList).finally(() => {
-        console.log('23213',Object.values(errors))
-        callBack(
-            formEntries(
-                Object.keys(errors)
-                    .map((key) => [key, 
-                        errors[key].map((item: Message) => item.message)]))
-        )
+        
+    Promise.all(promiseList).then(() => {
+        callBack(isResolve('resolve'))
+    }, () => {
+        callBack(isResolve('reject'))
     });
     // console.log(Object.values(errors))
 }
