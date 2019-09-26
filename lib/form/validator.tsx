@@ -6,64 +6,70 @@ interface FormRule {
     minLength?: number;
     maxLength?: number;
     pattern?: RegExp;
-    validator?: { name: string, validate: (value: string) => Promise<void> }
+    validator?: (value: string) => Promise<string>
 }
 
 type FormRules = Array<FormRule>
-type FormEntriesArray = Array<[string, Array<string>]>
+// type FormEntriesArray = Array<[string, Array<string>]>
 
 
 export interface FormError {
     [K: string]: string[]
 }
 
-interface Message {
-    message: string;
-    promise?: Promise<any>
-}
+type Message = string | Promise<string>
+
 
 const isEmpty = (value: any) => {
     return value === undefined || value === null || value === ''
 }
 
-const flat = (arr: Array<any>): Array<any> => {
+// const flat = (arr: Array<any>): Array<any> => {
+//     let result: any[] = []
+//     let bStop = true
+//     arr.forEach((val) => {
+//         if (Array.isArray(val)) {
+//             result.push(...val)
+//             bStop = false
+//         } else {
+//             result.push(val)
+//         }
+//     })
+//     if (bStop) {
+//         return result
+//     }
+//     return flat(result)
+// }
+
+const simpleFlat = (arr: Array<any>): Array<any> => {
     let result: any[] = []
-    let bStop = true
     arr.forEach((val) => {
         if (Array.isArray(val)) {
             result.push(...val)
-            bStop = false
         } else {
             result.push(val)
         }
     })
-    if (bStop) {
-        return result
-    }
-    return flat(result)
+    return result
 }
 
-const formEntries = (array: FormEntriesArray): FormError => {
-    let result: { [key: string]: string[] } = {}
-    array.map(item => { result[item[0]] = item[1] })
+// const formEntries = (array: FormEntriesArray): FormError => {
+//     let result: { [key: string]: string[] } = {}
+//     array.map(item => { result[item[0]] = item[1] })
+//     return result
+// };
+
+const zip = (kvList: Array<[string, string]>) => {
+    const result: { [k: string]: Array<string> } = {}
+    kvList.map(([key, val]) => {
+        result[key] = result[key] || []
+        result[key].push(val)
+    })
     return result
-};
+}
 
 const Validator = (formValue: FormValue, rules: FormRules, callBack: (errors: FormError) => void): void => {
     let errors: any = {}; //错误信息容器
-    const isResolve = (value:string) => {
-        let result = null
-        value==='resolve'?result = formEntries(
-            Object.keys(errors)
-                .map((key) => 
-                [key, errors[key].map((item: Message) => item.message).filter((item: string) => item !== 'unique')]
-            )):result =  formEntries(
-                Object.keys(errors)
-                    .map((key) => [key,
-                        errors[key].map((item: Message) => item.message)]))
-
-        return result
-    }
     const addError = (key: string, message: Message) => {
         if (errors[key] === undefined) {
             errors[key] = []
@@ -74,39 +80,41 @@ const Validator = (formValue: FormValue, rules: FormRules, callBack: (errors: Fo
         const value = formValue[rule.key]
         if (rule.required) {
             if (isEmpty(value)) {
-                addError(rule.key, { message: 'require' })
+                addError(rule.key, 'require')
             }
         }
         if (rule.minLength) {
             if (!isEmpty(value) && value!.length < rule.minLength) {
-                addError(rule.key, { message: 'minLength' })
+                addError(rule.key, 'minLength')
             }
         }
         if (rule.maxLength) {
             if (!isEmpty(value) && value!.length > rule.maxLength) {
-                addError(rule.key, { message: 'maxLength' })
+                addError(rule.key, 'maxLength')
             }
         }
         if (rule.pattern) {
             if (!(rule.pattern.test(value))) {
-                addError(rule.key, { message: 'pattern' })
+                addError(rule.key, 'pattern')
             }
         }
         if (rule.validator) {
-            const promise = rule.validator.validate(value)
-            addError(rule.key, { message: rule.validator.name, promise })
+            const promise = rule.validator(value)
+            addError(rule.key, promise)
         }
     });
-    const promiseList = flat(Object.values(errors))
-        .filter((item: Message) => item.promise)
-        .map((item: Message) => item.promise);
-        
-    Promise.all(promiseList).then(() => {
-        callBack(isResolve('resolve'))
-    }, () => {
-        callBack(isResolve('reject'))
-    });
-    // console.log(Object.values(errors))
+    // console.log(errors)
+    const flattenErrors = simpleFlat(Object.keys(errors).map((key) =>
+        errors[key].map((promise: Message) => [key, promise])
+    ))
+    // console.log('flattenErrors', flattenErrors)
+    const newPromiseList = flattenErrors.map(([key, promisesOrString]) => (promisesOrString instanceof Promise ? promisesOrString : Promise.reject(promisesOrString))
+        .then(() => [key, undefined] //undefined代表没有错
+            , (reason: string) => [key, reason]))
+    Promise.all(newPromiseList).then((result: Array<[string, string]>) => {
+        // console.log('result', result)
+        callBack(zip(result.filter(item => item[1] !== undefined)))
+    }, () => { })
 }
 
 export default Validator
