@@ -1,0 +1,13 @@
+.myui-scroll {
+    position: relative;
+    overflow: hidden;
+    &-inner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: -14px;
+        border: 3px solid blue;
+        overflow: auto;
+    }
+}
