@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from 'react'
+import ScrollbarWidth from './scrollBar-width'
 import './scroll.scss'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -8,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const Scroll:React.FunctionComponent<Props> = (props) => {
     const {children, ...rest} = props
     return <div className="myui-scroll" {...rest}>
-        <div className="myui-scroll-inner">
+        <div className="myui-scroll-inner" style={{right:-ScrollbarWidth()}}>
             {children}
         </div>
     </div>
