@@ -7,7 +7,22 @@
         bottom: 0;
         left: 0;
         right: 0;
-        border: 3px solid blue;
         overflow: auto;
+    }
+    &-track {
+        width: 12px;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    &-bar {
+        height: 30px;
+        background: rgba(128, 128, 128,80%);
+        position: absolute;
+        left: 2px;
+        top: 0;
+        width: 6px;
+        border-radius: 3px;
     }
 }
