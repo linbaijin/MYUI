@@ -6,7 +6,7 @@ import DialogDemo from './lib/dialog/dialog.demo';
 import LayoutDemo from './lib/layout/layout.demo';
 import IconDemo from './lib/icon/icon.demo';
 import FormDemo from './lib/form/form.demo';
-import ScrollExample from './lib/scroll/scrollExample';
+import ScrollDemo from './lib/scroll/scroll.demo';
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout'
 import './example.scss'
 void 'examples 不要改动这一行代码！'; // tslint:disable-line
@@ -48,7 +48,7 @@ ReactDOM.render(
                         <Route path="/dialog" component={DialogDemo}></Route>
                         <Route path="/layout" component={LayoutDemo}></Route>
                         <Route path="/form" component={FormDemo}></Route>
-                        <Route path="/scroll" component={ScrollExample}></Route>
+                        <Route path="/scroll" component={ScrollDemo}></Route>
                     </Content>
                 </Layout>
                 <Footer className="site-footer">@LeeBriken</Footer>
