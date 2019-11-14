@@ -8,6 +8,9 @@
         left: 0;
         right: 0;
         overflow: auto;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
     &-track {
         width: 12px;
@@ -24,5 +27,6 @@
         top: 0;
         width: 6px;
         border-radius: 3px;
+        transition: opacity 0.3s linear;
     }
 }
