@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useRef, useState, UIEventHandler, MouseEventHandler } from 'react'
+import React, { HTMLAttributes, useEffect, useRef, useState, UIEventHandler, MouseEventHandler, TouchEventHandler } from 'react'
 import ScrollbarWidth from './scrollBar-width'
 import './scroll.scss'
 
@@ -15,6 +15,8 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const [barHeight, setBarHeight] = useState(0)
     const [barVisible, setBarVisible] = useState(false)
     const [barTop, _setBarTop] = useState(0)
+    const [translateY,setTranslateY] = useState(0)
+    const lastY = useRef(0)
     const timeIdRef = useRef<number | null>(null)
     const setBarTop = (number: number) => {
         if (number < 0) { return }
@@ -64,6 +66,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         firstBarTopRef.current = barTop //记录bar的初始位置
         console.log('start')
     }
+
     const onMouseMoveBar = (e: MouseEvent) => {
         if (draggingRef.current) {
             const delta = e.clientY - firstYRef.current //鼠标移动的距离
@@ -74,6 +77,20 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
             containerRef.current!.scrollTop = newBarTop * scrollHeight / viewHeight
         }
     }
+
+    const onTouchStart:TouchEventHandler = (e) => {
+        lastY.current = e.touches[0].clientY
+    }
+    const onTouchMove:TouchEventHandler = (e) => {
+        const deltaY = e.touches[0].clientY - lastY.current
+        lastY.current = e.touches[0].clientY
+        console.log(deltaY)
+        setTranslateY( translateY + deltaY)
+    }
+    const onTouchEnd:TouchEventHandler = () => {
+        setTranslateY(0)
+    }
+
     const onMouseUpBar = (e: MouseEvent) => {
         draggingRef.current = false
         console.log('end')
@@ -86,7 +103,13 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     }
 
     return <div className="myui-scroll" {...rest}>
-        <div className="myui-scroll-inner" onScroll={onScroll} style={{ right: -ScrollbarWidth() }}
+        <div className="myui-scroll-inner" onScroll={onScroll} style={{ 
+            right: -ScrollbarWidth(),
+            transform:`translateY(${translateY}px)`
+        }}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
             ref={containerRef}
         >
             {children}
