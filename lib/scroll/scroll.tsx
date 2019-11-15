@@ -15,9 +15,16 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const [barHeight, setBarHeight] = useState(0)
     const [barVisible, setBarVisible] = useState(false)
     const [barTop, _setBarTop] = useState(0)
-    const [translateY,setTranslateY] = useState(0)
+    const [translateY, _setTranslateY] = useState(0)
+    const setTranslateY = (y: number) => {
+        if (y < 0) { return }
+        if (y > 150) { y = 150 }
+        _setTranslateY(y)
+    }
     const lastY = useRef(0)
     const timeIdRef = useRef<number | null>(null)
+    const moveCount = useRef(0)
+    const pulling = useRef(false)
     const setBarTop = (number: number) => {
         if (number < 0) { return }
         const { current } = containerRef
@@ -28,18 +35,19 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         _setBarTop(number)
     }
     const onScroll: UIEventHandler<HTMLDivElement> = () => {
+        console.log('触发scroll')
         setBarVisible(true)
         const { current } = containerRef
         const scrollHeight = current!.scrollHeight
         const viewHeight = current!.getBoundingClientRect().height
         const scrollTop = current!.scrollTop
         setBarTop(scrollTop * viewHeight / scrollHeight)
-        if(timeIdRef !== null) {
+        if (timeIdRef !== null) {
             window.clearTimeout(timeIdRef.current!)
         }
         timeIdRef.current = window.setTimeout(() => {
             setBarVisible(false)
-        },1000)
+        }, 1000)
     }
     useEffect(() => {
         const scrollHeight = containerRef.current!.scrollHeight//总滚动高度
@@ -78,16 +86,28 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const onTouchStart:TouchEventHandler = (e) => {
+    const onTouchStart: TouchEventHandler = (e) => {
         lastY.current = e.touches[0].clientY
+        const scrollTop = containerRef.current!.scrollTop
+        if (scrollTop !== 0) { return }
+        pulling.current = true
+        moveCount.current = 0
     }
-    const onTouchMove:TouchEventHandler = (e) => {
+    const onTouchMove: TouchEventHandler = (e) => {
         const deltaY = e.touches[0].clientY - lastY.current
+        moveCount.current += 1
+        if (moveCount.current === 1 && deltaY < 0) {
+            pulling.current = false
+            return
+        }
+        if (!pulling.current) {
+            return
+        }
         lastY.current = e.touches[0].clientY
         console.log(deltaY)
-        setTranslateY( translateY + deltaY)
+        setTranslateY(translateY + deltaY)
     }
-    const onTouchEnd:TouchEventHandler = () => {
+    const onTouchEnd: TouchEventHandler = () => {
         setTranslateY(0)
     }
 
@@ -103,9 +123,9 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     }
 
     return <div className="myui-scroll" {...rest}>
-        <div className="myui-scroll-inner" onScroll={onScroll} style={{ 
+        <div className="myui-scroll-inner" onScroll={onScroll} style={{
             right: -ScrollbarWidth(),
-            transform:`translateY(${translateY}px)`
+            transform: `translateY(${translateY}px)`
         }}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -116,7 +136,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         </div>
         {
             <div className="myui-scroll-track" onMouseDown={onMouseDownBar}>
-                <div className="myui-scroll-bar" style={{ height: barHeight, transform: `translateY(${barTop}px)`,opacity: barVisible ? 1 : 0}}></div>
+                <div className="myui-scroll-bar" style={{ height: barHeight, transform: `translateY(${barTop}px)`, opacity: barVisible ? 1 : 0 }}></div>
             </div>
         }
 
