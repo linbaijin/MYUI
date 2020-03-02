@@ -7,8 +7,10 @@ import LayoutDemo from './lib/layout/layout.demo';
 import IconDemo from './lib/icon/icon.demo';
 import FormDemo from './lib/form/form.demo';
 import ScrollDemo from './lib/scroll/scroll.demo';
-import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout'
-import './example.scss'
+import CitySelector from './lib/citySelector/citySelector.example';
+import CascaderExample from "./lib/cascader/cascader.example";
+import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout';
+import './example.scss';
 void 'examples 不要改动这一行代码！'; // tslint:disable-line
 
 
@@ -40,6 +42,12 @@ ReactDOM.render(
                         <li>
                             <NavLink to="/scroll">滚动条</NavLink>
                         </li>
+                        <li>
+                            <NavLink to="/citySelector">城市选择器</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/cascader">Cascader</NavLink>
+                        </li>
                     </ul>
             </Aside>
                    
@@ -49,6 +57,8 @@ ReactDOM.render(
                         <Route path="/layout" component={LayoutDemo}></Route>
                         <Route path="/form" component={FormDemo}></Route>
                         <Route path="/scroll" component={ScrollDemo}></Route>
+                        <Route path="/citySelector" component={CitySelector}></Route>
+                        <Route path="/cascader" component={CascaderExample}></Route>
                     </Content>
                 </Layout>
                 <Footer className="site-footer">@LeeBriken</Footer>

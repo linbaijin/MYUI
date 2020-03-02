@@ -7,6 +7,7 @@ export default function (){
             <Icon name="qq"/>
             <Icon name="wechat"/>
             <Icon name="alipay"/>
+            <Icon name="rightArrow"/>
         </div>
     )
 }
