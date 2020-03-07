@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6 {
 
 $padding:16px;
 $border-color:#eee;
-$main-color:#00AdB5;
+$main-color:#1890ff;
 
 .site-page {
     background: #ffffff;
@@ -66,6 +66,7 @@ $main-color:#00AdB5;
     ul {
         min-width: 12em;
         > li {
+            position: relative;
             a {
                 padding: 8px $padding;
                 color: #333;
@@ -74,8 +75,8 @@ $main-color:#00AdB5;
                     color:$main-color;
                 }
                 &.active {
-                    background: $main-color;
-                    color:white;
+                    background-color: #e6f7ff;
+                    color:$main-color;
                 }
             }
         }
@@ -88,4 +89,14 @@ $main-color:#00AdB5;
     color: #666;
     padding: $padding 0;
     border-top: 1px solid $border-color
+}
+
+.myui-menuItem-filler {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $main-color;
+    height: 100%;
+    width: 3px;
+    border-radius: 1px;
 }

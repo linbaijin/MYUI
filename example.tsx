@@ -8,62 +8,108 @@ import IconDemo from './lib/icon/icon.demo';
 import FormDemo from './lib/form/form.demo';
 import ScrollDemo from './lib/scroll/scroll.demo';
 import CitySelector from './lib/citySelector/citySelector.example';
-import CascaderExample from "./lib/cascader/cascader.example";
+import CascaderDemo from "./lib/cascader/cascaderDemo";
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout';
 import './example.scss';
+//import {useState} from "react";
+import {RouteComponentProps} from "react-router";
+import {useState} from "react";
+
 void 'examples 不要改动这一行代码！'; // tslint:disable-line
 
 
-ReactDOM.render(
-    <div>
-        <Router>
-            <Layout className="site-page">
-                <Header className="site-header">
+interface Component {
+    path:string,
+    component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+}
+
+const componentArr:Component[] = [
+    {
+        path:'icon',
+        component:IconDemo
+    },
+    {
+        path:'dialog',
+        component:DialogDemo
+    },
+    {
+        path:'layout',
+        component:LayoutDemo
+    },
+    {
+        path:'form',
+        component:FormDemo
+    },
+    {
+        path:'scroll',
+        component:ScrollDemo
+    },
+    {
+        path:'citySelector',
+        component:CitySelector
+    },
+    {
+        path:'cascader',
+        component:CascaderDemo
+    },
+]
+
+
+const IndexPage:React.FC = (props) => {
+    const [currentUrl,setCurrentUrl] = useState<string>('')
+    return (
+        <div>
+                <Layout className="site-page">
+                    <Header className="site-header">
                         <div className="logo">
                             MYUI
                         </div>
-                </Header>
-                <Layout>
-                <Aside className="site-aside">
-                    <h2>组件</h2>
-                    <ul>
-                        <li>
-                            <NavLink to="/icon">icon</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/dialog">dialog</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/layout">layout</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/form">表单</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/scroll">滚动条</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/citySelector">城市选择器</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/cascader">Cascader</NavLink>
-                        </li>
-                    </ul>
-            </Aside>
-                   
-                    <Content className="site-main">
-                        <Route path="/icon" component={IconDemo}></Route>
-                        <Route path="/dialog" component={DialogDemo}></Route>
-                        <Route path="/layout" component={LayoutDemo}></Route>
-                        <Route path="/form" component={FormDemo}></Route>
-                        <Route path="/scroll" component={ScrollDemo}></Route>
-                        <Route path="/citySelector" component={CitySelector}></Route>
-                        <Route path="/cascader" component={CascaderExample}></Route>
-                    </Content>
+                    </Header>
+                    <Layout>
+                        <Aside className="site-aside">
+                            <h2>组件</h2>
+                            <ul>
+                                {
+                                    componentArr.map((component)=>{
+                                        return <li key={component.path} onClick={()=>setCurrentUrl(component.path)}>
+                                            <NavLink to={`/${component.path}`}>{component.path}</NavLink>
+                                            {
+                                                // currentUrl===component.path&&
+                                                <div
+                                                    className="myui-menuItem-filler"
+                                                    style={{
+                                                        height:currentUrl===component.path?"100%":"0",
+                                                        top:0,
+                                                        transition:"all 350ms cubic-bezier(0.645, 0.045, 0.355, 1) 0s",
+                                                        //display:currentUrl===component.path?'block':"none",
+                                                        opacity:currentUrl===component.path? 1 : 0
+                                                    }}
+                                                ></div>
+                                            }
+                                        </li>
+                                    })
+                                }
+                            </ul>
+                        </Aside>
+
+                        <Content className="site-main">
+                            {
+                                componentArr.map((component)=>{
+                                    return <Route key={component.path} path={`/${component.path}`} component={component.component}></Route>
+                                })
+                            }
+                        </Content>
+                    </Layout>
+                    <Footer className="site-footer">@LeeBriken</Footer>
                 </Layout>
-                <Footer className="site-footer">@LeeBriken</Footer>
-            </Layout>
-        </Router>
-    </div>
+        </div>
+    )
+}
+
+
+ReactDOM.render(
+    <Router>
+        <IndexPage/>
+    </Router>
     , document.querySelector('#root'));
 

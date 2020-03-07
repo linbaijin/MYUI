@@ -16,9 +16,18 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const [barVisible, setBarVisible] = useState(false)
     const [barTop, _setBarTop] = useState(0)
     const [translateY, _setTranslateY] = useState(0)
+    const [pullText, setPullText] = useState('继续下拉以刷新')
     const setTranslateY = (y: number) => {
-        if (y < 0) { return }
-        if (y > 150) { y = 150 }
+        if (y === 0) {
+            setPullText('继续下拉以刷新')
+        }
+        if (y < 0) {
+            return
+        }
+        if (y >= 150) {
+            y = 150
+            setPullText('松开即可刷新')
+        }
         _setTranslateY(y)
     }
     const lastY = useRef(0)
@@ -104,7 +113,6 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
             return
         }
         lastY.current = e.touches[0].clientY
-        console.log(deltaY)
         setTranslateY(translateY + deltaY)
     }
     const onTouchEnd: TouchEventHandler = () => {
@@ -139,6 +147,9 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
                 <div className="myui-scroll-bar" style={{ height: barHeight, transform: `translateY(${barTop}px)`, opacity: barVisible ? 1 : 0 }}></div>
             </div>
         }
+        <div className="myui-scroll-pulling" style={{ height: translateY }}>
+            {pullText}
+        </div>
 
     </div>
 }

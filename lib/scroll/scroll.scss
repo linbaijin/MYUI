@@ -30,4 +30,11 @@
         border-radius: 3px;
         transition: opacity 0.3s linear;
     }
+    &-pulling {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 1px solid black;
+    }
 }
