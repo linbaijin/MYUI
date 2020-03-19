@@ -1,0 +1,40 @@
+.myui-tree {
+  &-item {
+    outline: 1px solid;
+    line-height: 1.5;
+  }
+  &-text{
+    &:hover{
+      background: lightyellow;
+    }
+  }
+  &-text {
+    display: flex;
+    align-items: center;
+  }
+  &-level-1 {
+    .myui-tree-text {
+      padding-left: 0;
+    }
+  }
+  &-level-2 {
+    .myui-tree-text {
+      padding-left: 1em;
+    }
+  }
+  &-level-3 {
+    .myui-tree-text {
+      padding-left: 2em;
+    }
+  }
+  &-level-4 {
+    .myui-tree-text {
+      padding-left: 3em;
+    }
+  }
+  &-level-5 {
+    .myui-tree-text {
+      padding-left: 4em;
+    }
+  }
+}
