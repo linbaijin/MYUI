@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Tree, {TreeDataItem} from './tree'
+import Tree from './tree'
 
 const TreeExample = () => {
 
@@ -14,7 +14,17 @@ const TreeExample = () => {
                     children:[
                         {
                             title:'1.1.1',
-                            key:'1.1.1'
+                            key:'1.1.1',
+                            children:[
+                                {
+                                    title:'1.1.1.1',
+                                    key:'1.1.1.1',
+                                }
+                            ]
+                        },
+                        {
+                            title:'1.1.2',
+                            key:'1.1.2'
                         }
                     ]
                 }
@@ -37,18 +47,20 @@ const TreeExample = () => {
             ]
         },
     ])
-    const [selectedValues,setSelectedValues] = useState(['1.1','2.1'])
-    const onChange = (item:TreeDataItem,isSelected:boolean)=> {
-        console.log(item, isSelected);
-        isSelected?setSelectedValues([...selectedValues,item.title]):
-            setSelectedValues(selectedValues.filter(v => v!==item.title))
-    }
+    const [selectedValues,setSelected] = useState<string[]|[]>([])
 
     return (
         <div>
             <h1>Tree</h1>
             <div style={{width:300}}>
-                <Tree treeData={treeData} selectedValues={selectedValues} onChange={onChange}/>
+                <Tree
+                    treeData={treeData}
+                    selected={selectedValues}
+                    onChange={(selected)=>{
+                        console.log('selected',selected);
+                        setSelected(selected)}}
+                    multiple={true}
+                />
             </div>
         </div>
     )
