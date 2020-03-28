@@ -1,6 +1,5 @@
 .myui-tree {
   &-item {
-    outline: 1px solid;
     line-height: 1.5;
   }
   &-text{
@@ -11,6 +10,9 @@
   &-text {
     display: flex;
     align-items: center;
+  }
+  &-checkbox {
+    margin-left: 4px;
   }
   &-level-1 {
     .myui-tree-text {
@@ -37,11 +39,8 @@
       padding-left: 4em;
     }
   }
-  &-collapsed {
-    height: 0;
-    overflow: hidden;
-  }
   &-children {
+    overflow: hidden;
     transition: height 300ms;
   }
 }
