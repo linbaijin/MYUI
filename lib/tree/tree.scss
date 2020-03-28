@@ -37,4 +37,11 @@
       padding-left: 4em;
     }
   }
+  &-collapsed {
+    height: 0;
+    overflow: hidden;
+  }
+  &-children {
+    transition: height 300ms;
+  }
 }
