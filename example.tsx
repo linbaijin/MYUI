@@ -9,13 +9,14 @@ import FormDemo from './lib/form/form.demo';
 import ScrollDemo from './lib/scroll/scroll.demo';
 import CitySelector from './lib/citySelector/citySelector.example';
 import CascaderDemo from "./lib/cascader/cascaderDemo";
-import TreeExample from "./lib/tree/tree.demo";
+import TreeDemo from "./lib/tree/tree.demo";
 import { Layout, Header, Content, Aside, Footer } from './lib/layout/layout';
 import './example.scss';
 //import {useState} from "react";
 import {RouteComponentProps} from "react-router";
 import {useState} from "react";
-import SliderExample from "./lib/slider/slider.example";
+import SliderDemo from "./lib/slider/slider.demo";
+
 
 
 
@@ -58,11 +59,11 @@ const componentArr:Component[] = [
     },
     {
         path: 'tree',
-        component:TreeExample
+        component:TreeDemo
     },
     {
         path: 'slider',
-        component:SliderExample
+        component:SliderDemo
     }
 ]
 

@@ -6,9 +6,9 @@
     display: flex;
     width: 100%;
     transform: translateX(-100%);
-    &.has-transition-class-name {
-      transition: transform .5s cubic-bezier(.645, .045, .355, 1);
-    }
+  }
+  &-has-transition-class-name {
+    transition: transform .5s cubic-bezier(.645, .045, .355, 1);
   }
   >.myui-slider-dots-wrapper {
     position: absolute;
