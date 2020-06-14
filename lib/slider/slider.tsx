@@ -9,22 +9,19 @@ interface SliderProps {
     afterChange?: (from: number, to: number) => void
 }
 
-const handleMouseEnter = () => {
 
-}
-
-const handleMouseLeave = () => {
-
-}
 
 const Slider: React.FC<SliderProps> = (props) => {
     const {children, dots, beforeChaneg,duration} = props
     const sc = getFirstClassName('myui-slider')
     const containerRef = useRef<HTMLDivElement>(null)
     const lengthRef = useRef(0)
+    const prevIndex = useRef<number>(1)
     const timerRef = useRef<number | null>(null)
     const current = useRef<number>(1)
     const [, setX] = useState(0)
+    const hasTransitionClassName = useRef<boolean>(true)
+    const isTransitioning = useRef<boolean>(false)
     //const [prevIndex, setPrevIndex] = useState<number | null>(0)
     const cloneNode = () => {
         const nodeList: HTMLElement[] = []
@@ -36,9 +33,34 @@ const Slider: React.FC<SliderProps> = (props) => {
             }
         })
         lengthRef.current = nodeList.length
-        console.log(nodeList);
+        
         containerRef.current?.append(nodeList[0].cloneNode(true))
         containerRef.current?.prepend(nodeList[nodeList.length - 1].cloneNode(true))
+    }
+
+    const handleMouseEnter = () => {
+        if(timerRef.current&&duration) {
+            window.clearInterval(timerRef.current)
+        }
+    }
+    
+    const handleMouseLeave = () => {
+        duration && autoPlay()
+    }
+
+    const handleTransitionEnd = () => {
+        isTransitioning.current = false
+        if(current.current === lengthRef.current - 1 && prevIndex.current === 1) {
+            
+            hasTransitionClassName.current = false
+            setX(Math.random())
+            controllContainer(lengthRef.current)
+        } else if(current.current === 1 && prevIndex.current === lengthRef.current) {
+            hasTransitionClassName.current = false
+            setX(Math.random())
+            controllContainer(1)
+        }
+        
     }
 
     const controllContainer = (n: number) => {
@@ -48,33 +70,38 @@ const Slider: React.FC<SliderProps> = (props) => {
     }
 
     const setCurrent = (n: number) => {
+        if(!hasTransitionClassName.current) {
+            hasTransitionClassName.current = true
+        }
+        isTransitioning.current = true
         // first => last
-        if (n === lengthRef.current && current.current === 1) {
-            console.log('first2last');
+        if (n === lengthRef.current && prevIndex.current === 1) {
             controllContainer(0)
             //last => first
-        } else if (n === 1 && current.current === lengthRef.current) {
+        } else if (n === 1 && prevIndex.current === lengthRef.current) {
             controllContainer(lengthRef.current + 1)
         } else {
             controllContainer(n)
         }
         beforeChaneg && beforeChaneg(current.current, n)
         current.current = n
-        setX(n)
+        setX(Math.random())
     }
 
     const goTo = (n: number) => {
-        if (n > lengthRef.current || n < 1 || n === current.current) {
+        if (n > lengthRef.current || n < 1 || n === current.current || isTransitioning.current) {
             return
         }
+        prevIndex.current = current.current
         setCurrent(n)
         //setPrevIndex(current)
     }
 
     const next = () => {
-        console.log('mext',current);
+        // console.log('current',current);
+        // console.log('prevIndex',prevIndex);
         if(current.current < lengthRef.current) {
-            goTo(current.current+1)
+            goTo(current.current + 1)
         } else {
             goTo(1)
         }
@@ -82,7 +109,6 @@ const Slider: React.FC<SliderProps> = (props) => {
 
     const autoPlay = () => {
         timerRef.current = window.setInterval(()=>{
-            console.log(2333);
             next()
         },duration!*1000)
     }
@@ -97,8 +123,10 @@ const Slider: React.FC<SliderProps> = (props) => {
 
     useEffect(() => {
         cloneNode()
+        containerRef.current?.addEventListener('transitionend', handleTransitionEnd)
         duration&&autoPlay()
         return () => {
+            containerRef.current?.removeEventListener('transitionend', handleTransitionEnd)
             timerRef.current&&window.clearInterval(timerRef.current)
         }
     }, [])
@@ -106,13 +134,14 @@ const Slider: React.FC<SliderProps> = (props) => {
     return (
         <>
             {/*<button onClick={()=>console.log(current)}>btn</button>*/}
+            
         <div
             className={sc('')}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
             <div
-                className={sc({container: true, 'has-transition-class-name': true})}
+                className={sc({container: true, 'has-transition-class-name': hasTransitionClassName.current})}
                 ref={containerRef}
             >
                 {children}
